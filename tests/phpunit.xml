@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/9.6/phpunit.xsd"
+         bootstrap="../vendor/autoload.php"
+         cacheResultFile=".phpunit.cache/test-results"
+         backupGlobals="false"
+         colors="true"
+         failOnRisky="true"
+         failOnWarning="true"
+>
+    <testsuites>
+        <testsuite name="VC85 Test Suite">
+            <directory>./</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage
+          cacheDirectory=".phpunit.cache/code-coverage"
+          includeUncoveredFiles="true"
+          processUncoveredFiles="true"
+          pathCoverage="false"
+          ignoreDeprecatedCodeUnits="true"
+          disableCodeCoverageIgnore="true">
+        <include>
+            <directory suffix=".php">../src</directory>
+        </include>
+    </coverage>
+
+</phpunit>
