@@ -1,0 +1,24 @@
+{
+    "name": "dynoser/base85",
+    "description": "base85 encoder and decoder. Classic mode ascii85, vwx-mode, and visually distinctive characters (cyrillic) mode",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Dynoser",
+            "email": "alex@w3o.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src/vc85.php"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "9.6.15"
+    },
+    "extra": {
+        "dyno-nsmap": {
+            "dynoser\\base85\\vc85": "@/dynoser/base85/src/vc85.php"
+        }
+    }
+}
