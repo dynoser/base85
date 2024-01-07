@@ -1,0 +1,3 @@
+hashsig: fc481898b153cf08061d5662577bb6193aa3a774e0942443623de6515e02494d ~ filescnt: 2 ~ hashalg: sha256 ~ signalg: ed25519 ~ pubkey: EkDohf20jN/9kXW/WL3ZXo245ggek9TiTWzzmBriMTU= ~ signature: +NdC+mf6ENcrr2UpON/w43WNb/i6KQQtV5MI4jkGEcaQjkzGDrEKxToewniX7tiblQm2D2NcF1vyrbulLa60BA==
+composer.json: 185030674893fd50741caeb97be1f4b52a8686aae171bb342108a005909f1f4c 580
+src/vc85.php: aad24bd5707b188f8d2d6b5001dffaab12cd8b70e0b12af5bb0e7b05bb51b61c 8330
