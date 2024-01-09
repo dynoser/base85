@@ -89,7 +89,7 @@ class vc85
     /**
      * Encode binary-string data to base-85
      * use inside:
-     *   vc85::$defaultEncodeMode (1 or 2 or 3, @see vc85::init)
+     *   vc85::$currentEncodeMode (1 or 2 or 3, @see vc85::init)
      *   vc85::$splitWidth (to split result to lines by width, set 0 if no need)
      *   vc85::$addPf (true or false, will add <~ ... ~> or not)
      * @param string $data binary string
