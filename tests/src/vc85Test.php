@@ -12,11 +12,11 @@ class vc85Test extends TestCase
                     . 'perseverance of delight in the continued and indefatigable generation '
                     . 'of knowledge, exceeds the short vehemence of any carnal pleasure.';
 
-    public $man_85_utf = '9jqoлBlbDЭBleB1DJфжфFЩfцqю0JhKFГGLгCjФя4GpДd7FЯцL7ФГ6Фщю0JDEFГGПГфEVд2FЯц
-ЮГDJфжяФГжK0ФГ6LЩDfЭx0Ec5eБDffZЩEZeeяBlя9pFvAGXBPCsiфDGmгФ3BBюFжЦЮCAfu2юAKY
-iЩDИbдФFDцжщфCшUэФ3BNЖEcYf8ATD3sФqЪdДAftVqChШNqFГGд8фEVдяфCfгЭFD5W8ARlolDИa
+    public $man_85_utf = '9jqoлBlbDЭBleB1DJфжфFЩfцqю0JhKFГGLъCjФя4GpДd7FЯцL7ФГ6Фщю0JDEFГGПГфEVд2FЯц
+ЮГDJфжяФГжK0ФГ6LЩDfЭx0Ec5eБDffZЩEZeeяBlя9pFvAGXBPCsiфDGmъФ3BBюFжЦЮCAfu2юAKY
+iЩDИbдФFDцжщфCшUэФ3BNЖEcYf8ATD3sФqЪdДAftVqChШNqFГGд8фEVдяфCfъЭFD5W8ARlolDИa
 lЩDИdГjФГЪ3rФдFПaфD58wATD4ДBlФl3DeдцЭDJsй8ARoFbю0JMKФqB4лFЯцRГAKZЦЭDfTqBGПG
-гuDяRTpAKYowфCTю5фCeiЖDИИЪЩEц9щoFж2M7юc';
+ъuDяRTpAKYowфCTю5фCeiЖDИИЪЩEц9щoFж2M7юc';
 
     public $man_85_vwx = '9jqo^BlbD-BleB1DJ+*+F(f,q/0JhKF<GL>Cj@.4Gp$d7F!,L7@<6@)/0JDEF<G%<+EV:2F!,O<
 DJ+*.@<*K0@<6L(Df-x0Ec5e;DffZ(EZee.Bl.9pFvAGXBPCsi+DGm>@3BB/F*&OCAfu2/AKYi(
@@ -73,7 +73,7 @@ D.RTpAKYow+CT/5+Cei#DII?(E,9)oF*2M7/c';
     public function replacesProvider() {
         vc85::init(3);
         foreach(['!Я','#Ж','$Д','%П','&Ц','(Щ',')щ','*ж','+ф',',ц','-Э','.я',
-            '/ю',':д',';Б','<Г','=э','>г','?Ъ','@Ф','IИ','OЮ','[Ш',']ш','^л', '`й', 'lЛ'] as $repl) {
+            '/ю',':д',';Б','<Г','=э','>ъ','?Ъ','@Ф','IИ','OЮ','[Ш',']ш','^л', '`й', 'lЛ'] as $repl) {
             $fromNum = \ord($repl[0]) - 33;
             $toChar = \substr($repl, 1);
             $toNum = \ord(\substr($repl, -1));
@@ -103,7 +103,7 @@ D.RTpAKYow+CT/5+Cei#DII?(E,9)oF*2M7/c';
         $str = "One day I'm gonna fly away One day when heavens calls my name";
 
         $enc = $bc->encode($str);
-        $exp = "<~дMs_dA79aф8LJЪtB5_ШжФ3BюuGpДЮгФГitkDИjrДФГiuгBЮuwЩBЮtUqASuQ3Фps1iFЯцэFфDtVщAH~>";
+        $exp = "<~дMs_dA79aф8LJЪtB5_ШжФ3BюuGpДЮъФГitkDИjrДФГiuъBЮuwЩBЮtUqASuQ3Фps1iFЯцэFфDtVщAH~>";
         $this->assertEquals($exp, $enc);
 
         $back = $bc->decode($enc);       
@@ -240,7 +240,7 @@ D.RTpAKYow+CT/5+Cei#DII?(E,9)oF*2M7/c';
         $this->assertEquals(['Д', 'а', '!', '是', '的'], $un);
         
         $un = vc85::explodeUTF8(chr(209) . chr(208));
-        $this->assertFalse($un);
+        $this->assertNull($un);
     }
     
     /**
