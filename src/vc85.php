@@ -70,7 +70,7 @@ class vc85
         
         // replacement table: first char = from, second char = to.
         $repArr = ['!Я','#Ж','$Д','%П','&Ц','(Щ',')щ','*ж','+ф',',ц','-Э','.я',
-            '/ю',':д',';Б','<Г','=э','>г','?Ъ','@Ф','IИ','OЮ','[Ш',']ш','^л', '`й', 'lЛ'];
+            '/ю',':д',';Б','<Г','=э','>ъ','?Ъ','@Ф','IИ','OЮ','[Ш',']ш','^л', '`й', 'lЛ'];
         foreach($repArr as $repCh) {
             $cn = \ord($repCh[0]);
             $ca = \ord(\substr($repCh, -1));
@@ -207,7 +207,7 @@ class vc85
     * @param string $str The input string to be split.
     * @param int $brkCnt The maximum number of characters to break the string into. Defaults to 65535.
     *
-    * @return array|false An array of characters or false in case of an error.
+    * @return array|null An array of characters or null in case of an error.
     */
     public static function explodeUTF8($str, $brkCnt = 65535) {
         if (self::$mbstrsplit) {
@@ -218,17 +218,17 @@ class vc85
         for($i = 0; $i < $len; $i++){
             $cn = \ord($str[$i]);
             if ($cn > 128) {
-                if (($cn > 247)) return false;
+                if (($cn > 247)) return null;
                 elseif ($cn > 239) $bytes = 4;
                 elseif ($cn > 223) $bytes = 3;
                 elseif ($cn > 191) $bytes = 2;
-                else return false;
-                if (($i + $bytes) > $len) return false;
+                else return null;
+                if (($i + $bytes) > $len) return null;
                 $charsArr[] = \substr($str, $i, $bytes);
                 while ($bytes > 1) {
                     $i++;
                     $b = \ord($str[$i]);
-                    if ($b < 128 || $b > 191) return false;
+                    if ($b < 128 || $b > 191) return null;
                     $bytes--;
                 }
             } else {
