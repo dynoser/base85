@@ -227,9 +227,85 @@ D.RTpAKYow+CT/5+Cei#DII?(E,9)oF*2M7/c';
     public function testDecodeException()
     {
         $this->expectException('\InvalidArgumentException');
-        $dec = vc85::decode($this->man_85_utf . 'неть!');
+        vc85::decode($this->man_85_utf . 'неть!');
     }
     
+    public function vc85Patterns() {
+        return [
+            ["<
+дMs_dA79aф8LJЪtB5_ШжФ3BюuGpДЮъФГitkDИjrДФГiuъBЮuwЩBЮtUqASuQ3Фps1iFЯцэFфDtVщAH
+             >", "One day I'm gonna fly away One day when heavens calls my name"],
+
+            ["   <
+дMs_dA79aф8LJЪtB5_ШжФ3BюuGpДЮъФГitkDИjrДФГiuъBЮuwЩBЮtUqASuQ3Фps1iFЯцэFфDtVщAH
+             >  ", "One day I'm gonna fly away One day when heavens calls my name"],
+            
+            ['9jqoлBlbDЭBleB1DJфжфFЩfцqю0JhKFГGLъCjФя4GpДd7FЯцL7ФГ6Фщю0JDEFГGПГфEVд2FЯц
+ЮГDJфжяФГжK0ФГ6LЩDfЭx0Ec5eБDffZЩEZeeяBlя9pFvAGXBPCsiфDGmъФ3BBюFжЦЮCAfu2юAKY
+iЩDИbдФFDцжщфCшUэФ3BNЖEcYf8ATD3sФqЪdДAftVqChШNqFГGд8фEVдяфCfъЭFD5W8ARlolDИa
+lЩDИdГjФГЪ3rФдFПaфD58wATD4ДBlФl3DeдцЭDJsй8ARoFbю0JMKФqB4лFЯцRГAKZЦЭDfTqBGПG
+ъuDяRTpAKYowфCTю5фCeiЖDИИЪЩEц9щoFж2M7юc',
+              'Man is distinguished, not only by his reason, but by this singular '
+            . 'passion from other animals, which is a lust of the mind, that by a '
+            . 'perseverance of delight in the continued and indefatigable generation '
+            . 'of knowledge, exceeds the short vehemence of any carnal pleasure.'
+            ],
+            
+            ['  ddd<~9jqoлBlbDЭBleB1DJфжфFЩfцqю0JhKFГGLъCjФя4GpДd7FЯцL7ФГ6Фщю0JDEFГGПГфEVд2FЯц
+ЮГDJфжяФГжK0ФГ6LЩDfЭx0Ec5eБDffZЩEZeeяBlя9pFvAGXBPCsiфDGmъФ3BBюFжЦЮCAfu2юAKY
+iЩDИbдФFDцжщфCшUэФ3BNЖEcYf8ATD3sФqЪdДAftVqChШNqFГGд8фEVдяфCfъЭFD5W8ARlolDИa
+lЩDИdГjФГЪ3rФдFПaфD58wATD4ДBlФl3DeдцЭDJsй8ARoFbю0JMKФqB4лFЯцRГAKZЦЭDfTqBGПG
+ъuDяRTpAKYowфCTю5фCeiЖDИИЪЩEц9щoFж2M7юc~>dfff',
+              'Man is distinguished, not only by his reason, but by this singular '
+            . 'passion from other animals, which is a lust of the mind, that by a '
+            . 'perseverance of delight in the continued and indefatigable generation '
+            . 'of knowledge, exceeds the short vehemence of any carnal pleasure.'
+            ],
+            
+            ['  ddd<~9jqoлBlbDЭBleB1DJфжфFЩfцqю0JhKFГGLъCjФя4GpДd7FЯцL7ФГ6Фщю0JDEFГGПГфEVд2FЯц
+ЮГDJфжяФГжK0ФГ6LЩDfЭx0Ec5eБDffZЩEZeeяBlя9pFvAGXBPCsiфDGmъФ3BBюFжЦЮCAfu2юAKY
+iЩDИbдФFDцжщфCшUэФ3BNЖEcYf8ATD3sФqЪdДAftVqChШNqFГGд8фEVдяфCfъЭFD5W8ARlolDИa
+lЩDИdГjФГЪ3rФдFПaфD58wATD4ДBlФl3DeдцЭDJsй8ARoFbю0JMKФqB4лFЯцRГAKZЦЭDfTqBGПG
+ъuDяRTpAKYowфCTю5фCeiЖDИИЪЩEц9щoFж2M7юc',
+              'Man is distinguished, not only by his reason, but by this singular '
+            . 'passion from other animals, which is a lust of the mind, that by a '
+            . 'perseverance of delight in the continued and indefatigable generation '
+            . 'of knowledge, exceeds the short vehemence of any carnal pleasure.'
+            ],
+            
+            ['9jqoлBlbDЭBleB1DJфжфFЩfцqю0JhKFГGLъCjФя4GpДd7FЯцL7ФГ6Фщю0JDEFГGПГфEVд2FЯц
+ЮГDJфжяФГжK0ФГ6LЩDfЭx0Ec5eБDffZЩEZeeяBlя9pFvAGXBPCsiфDGmъФ3BBюFжЦЮCAfu2юAKY
+iЩDИbдФFDцжщфCшUэФ3BNЖEcYf8ATD3sФqЪdДAftVqChШNqFГGд8фEVдяфCfъЭFD5W8ARlolDИa
+lЩDИdГjФГЪ3rФдFПaфD58wATD4ДBlФl3DeдцЭDJsй8ARoFbю0JMKФqB4лFЯцRГAKZЦЭDfTqBGПG
+ъuDяRTpAKYowфCTю5фCeiЖDИИЪЩEц9щoFж2M7юc~>dfff only postfix',
+              'Man is distinguished, not only by his reason, but by this singular '
+            . 'passion from other animals, which is a lust of the mind, that by a '
+            . 'perseverance of delight in the continued and indefatigable generation '
+            . 'of knowledge, exceeds the short vehemence of any carnal pleasure.'
+            ],
+            
+            // encoded in cp1251
+            [ mb_convert_encoding('9jqoлBlbDЭBleB1DJфжфFЩfцqю0JhKFГGLъCjФя4GpДd7FЯцL7ФГ6Фщю0JDEFГGПГфEVд2FЯц
+ЮГDJфжяФГжK0ФГ6LЩDfЭx0Ec5eБDffZЩEZeeяBlя9pFvAGXBPCsiфDGmъФ3BBюFжЦЮCAfu2юAKY
+iЩDИbдФFDцжщфCшUэФ3BNЖEcYf8ATD3sФqЪdДAftVqChШNqFГGд8фEVдяфCfъЭFD5W8ARlolDИa
+lЩDИdГjФГЪ3rФдFПaфD58wATD4ДBlФl3DeдцЭDJsй8ARoFbю0JMKФqB4лFЯцRГAKZЦЭDfTqBGПG
+ъuDяRTpAKYowфCTю5фCeiЖDИИЪЩEц9щoFж2M7юc~>dfff only postfix', 'cp1251'),
+              'Man is distinguished, not only by his reason, but by this singular '
+            . 'passion from other animals, which is a lust of the mind, that by a '
+            . 'perseverance of delight in the continued and indefatigable generation '
+            . 'of knowledge, exceeds the short vehemence of any carnal pleasure.'
+            ],
+        ];
+    }
+    
+    /**
+     * @covers dynoser\base85\vc85::decode
+     * @dataProvider vc85Patterns
+     */
+    public function testDecodeByPatterns($encoded, $decoded) {
+        $decChk = vc85::decode($encoded);
+        $this->assertEquals($decChk, $decoded);        
+    }
     
     /**
      * @covers dynoser\base85\vc85::explodeUTF8
