@@ -1,3 +1,3 @@
-hashsig: d0f47525b3c221be3f4092c6b85e1024b6a89b52dda2a054593926f2f391e117 ~ filescnt: 2 ~ hashalg: sha256 ~ signalg: ed25519 ~ pubkey: EkDohf20jN/9kXW/WL3ZXo245ggek9TiTWzzmBriMTU= ~ signature: mCyOpp2//yn6jg/e8gRR6icdnvwjcqbTRmQKpJfXcpfVxwe3pbBpQmTdxV8FzAucenVRYn4KPrKBIpMyolR4Cw==
+hashsig: 0ecd76d52940546d98937432663e26bc194a2d18f6af9c3574798438d6eb700f ~ filescnt: 2 ~ hashalg: sha256 ~ signalg: ed25519 ~ pubkey: EkDohf20jN/9kXW/WL3ZXo245ggek9TiTWzzmBriMTU= ~ signature: kqGzpUb9Wo6KmfpJGXyvWf7xpiHOKcAC/W6QT8baPqN8/+hR+RvqRimTx3titqp6iAk3Iak7fY8fJXFo3O0WCg==
 composer.json: 185030674893fd50741caeb97be1f4b52a8686aae171bb342108a005909f1f4c 580
-src/vc85.php: 18bf2ee119b6d2e9f35a4b2f0f5f1c2d1f2bfe67002652f1dede4f2bf2a6f612 8330
+src/vc85.php: 7e2c3a76ca78bf6bcf8acadff622298553a693fbfe8105105209b8d9a3996c59 8330
