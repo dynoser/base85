@@ -42,7 +42,8 @@ class vc85
      *  0 - get actual value from vc85::$defaultEncodeMode
      *  1 - classic ascii85 compatible characters table
      *  2 - vwx (default) - ascii85 with replaces: "=>v '=>w \=>x
-     *  3 - vc85 - ascii85 with replaces all spec.chars to visually distinct characters
+     *  3 - vc85 - ascii85 with replaces all spec.chars to visually distinct characters (utf-8)
+     *  4 - vc85 - same as 3, but the result will be encoded in cp1251
      * @param int $encodeMode Mode 1, default = 2, 3
      */
     public static function init($encodeMode = 0) {
@@ -71,14 +72,17 @@ class vc85
         // replacement table: first char = from, second char = to.
         $repArr = ['!Я','#Ж','$Д','%П','&Ц','(Щ',')щ','*ж','+ф',',ц','-Э','.я',
             '/ю',':д',';Б','<Г','=э','>ъ','?Ъ','@Ф','IИ','OЮ','[Ш',']ш','^л', '`й', 'lЛ'];
-        foreach($repArr as $repCh) {
+        $cp1251 = \hex2bin('dfc6c4cfd6d9f9e6f4f6ddfffee4c1c3fdfadad4c8ded8f8ebe9cb');
+        foreach($repArr as $n => $repCh) {
             $cn = \ord($repCh[0]);
             $ca = \ord(\substr($repCh, -1));
+            $cp = \ord($cp1251[$n]);
             $i = $cn - 33;
             if ($encodeMode > 2) {
-                self::$vc85enc[$i] = \substr($repCh, 1);
+                self::$vc85enc[$i] = ($encodeMode === 4) ? $cp1251[$n] : \substr($repCh, 1);
             }
             self::$vc85dec[$ca] = $i;
+            self::$vc85dec[$cp] = $i;
         }
         
         // put all available chars to one string (from array keys to ascii-chr)
@@ -146,6 +150,12 @@ class vc85
                 $arr[] = $st;
             }
         }
+
+        $c = \count($arr);
+        if ($arr[$c-1] === '>') {
+            $arr[$c-2] .= $arr[$c-1];
+            unset($arr[$c-1]);
+        }
         return \implode("\n", $arr);
     }
     
@@ -157,27 +167,27 @@ class vc85
      * @throws InvalidArgumentException
      */
     public static function decode($dataSrc) {
-        $data = \str_replace(["z", "y", " "], ["!!!!!", "+<VdL", ''], 
-                \strtr($dataSrc, \chr(208) . \chr(209) . "\t\n\r", '     ')
-        );
-        
-        // cut data between <~ ... ~>
-        $i = \strpos($data, '<~');
-        if (false !== $i) {
-            $i += 2;
+        $data = \trim(\strtr($dataSrc, \chr(208) . \chr(209) . "\t\n\r", '     '));
+        if (\substr($data, 0, 2) === '< ' && \substr($data, -2) === ' >') {
+            $data = \substr($data, 2, -2);
+        } else {
+            // try cut data between <~ ... ~>
+            $p = \strpos($data, '<~');
+            $i = (false === $p) ? 0 : $p + 2;
+            $j = \strpos($data, '~>', $i);
+            if ($j) {
+                $data = \substr($data, $i, $j - $i);
+            } elseif ($i) {
+                $data = \substr($data, $i);
+            }
         }
-        $j = \strpos($data, '~>', $i ? $i : 0);
-        if ($j) {
-            $data = \substr($data, $i, $j - $i);
-        } elseif ($i) {
-            $data = \substr($data, $i);
-        }
-
        
         self::$currentEncodeMode || self::init();
 
-        $l = \strlen($data);
-        if ($l !== \strspn($data, self::$vc85chars)) {
+        $dataWrk = \str_replace(["z", "y", " "], ["!!!!!", "+<VdL", ''], $data);
+
+        $l = \strlen($dataWrk);
+        if ($l !== \strspn($dataWrk, self::$vc85chars)) {
             throw new \InvalidArgumentException("Data contains invalid characters");
         }
         $sub = $l % 5;
@@ -189,7 +199,7 @@ class vc85
                 $sum = $sum * 85 + self::$vc85dec[$char];
             }
             return \pack("N", $sum);
-        }, \str_split($data . \str_repeat(self::$vc85enc[84], $pad), 5));
+        }, \str_split($dataWrk . \str_repeat(self::$vc85enc[84], $pad), 5));
 
         if ($sub) {
             $lg = \count($out) - 1;
