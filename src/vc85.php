@@ -15,6 +15,8 @@ class vc85
     
     public static $mbstrsplit = null; // true if mb_str_split function is available
 
+    public static $lastDecodedIsAlt85 = false;
+
     /**
      * (Optional)
      * The constructor is used only to set parameters.
@@ -85,7 +87,7 @@ class vc85
             self::$vc85dec[$cp] = $i;
         }
         
-        // put all available chars to one string (from array keys to ascii-chr)
+        // put all available chars-bytes to one string (from array keys to ascii-chr)
         self::$vc85chars = \implode('', \array_map('chr',\array_keys(self::$vc85dec)));
         self::$currentEncodeMode = $encodeMode;
     }
@@ -99,7 +101,7 @@ class vc85
      * @param string $data binary string
      * @return string vc85 encoded string
      */
-    public static function encode($data) {
+    public static function encode($data, $altPf = false) {
         $l = \strlen($data);
         $sub = $l % 4;
         $pad = $sub ? (4 - $sub) : 0;
@@ -108,7 +110,7 @@ class vc85
         $enc85Arr = self::$vc85enc;
   
         $pow85Arr = [52200625, 614125, 7225, 85, 1];
-        $out = self::$addPf ? ['<~'] : [];
+        $out = self::$addPf ? [$altPf ? '{~' : '<~'] : [];
         foreach(\unpack("N*", $data . \str_repeat("\0", $pad)) as $uint32) {
             $sum = '';
             foreach($pow85Arr as $pow) {
@@ -122,7 +124,7 @@ class vc85
             $out[\count($out)-1] = \implode('', \array_slice(self::explodeUTF8($sum), 0, 5 - $pad));
         }
         if (self::$addPf) {
-            $out[] = '~>';
+            $out[] = $altPf ? '~}' : '~>';
         }
         return (self::$splitWidth > 0) ? self::implodeSplitter($out) : \implode('', $out);
     }
@@ -152,9 +154,17 @@ class vc85
         }
 
         $c = \count($arr);
-        if ($arr[$c-1] === '>') {
-            $arr[$c-2] .= $arr[$c-1];
-            unset($arr[$c-1]);
+        if ($c > 1) {
+            $lc = $arr[$c-1];
+            if ($lc === '>' || $lc === '}') {
+                $arr[$c-2] .= $lc;
+                $arr[$c-1] = '';
+            }
+            $fc = $arr[0];
+            if ($fc === '<' || $fc === '{') {
+                $arr[0] = $fc . $arr[1];
+                $arr[1] = '';
+            }
         }
         return \implode("\n", $arr);
     }
@@ -166,15 +176,22 @@ class vc85
      * @return string decoded binary data
      * @throws InvalidArgumentException
      */
-    public static function decode($dataSrc) {
+    public static function decode($dataSrc, $isAlt = false) {
         $data = \trim(\strtr($dataSrc, \chr(208) . \chr(209) . "\t\n\r", '     '));
         if (\substr($data, 0, 2) === '< ' && \substr($data, -2) === ' >') {
             $data = \substr($data, 2, -2);
         } else {
             // try cut data between <~ ... ~>
             $p = \strpos($data, '<~');
-            $i = (false === $p) ? 0 : $p + 2;
-            $j = \strpos($data, '~>', $i);
+            if (false === $p ) {
+                $p = \strpos($data, '{~');
+                $isAlt = (false !== $p);
+            } else {
+                $isAlt = false;
+            }
+            self::$lastDecodedIsAlt85 = $isAlt;
+            $i = (false !== $p) ? $p + 2 : 0;
+            $j = \strpos($data, '~', $i);
             if ($j) {
                 $data = \substr($data, $i, $j - $i);
             } elseif ($i) {
