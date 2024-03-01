@@ -1,3 +1,3 @@
-hashsig: 0ecd76d52940546d98937432663e26bc194a2d18f6af9c3574798438d6eb700f ~ filescnt: 2 ~ hashalg: sha256 ~ signalg: ed25519 ~ pubkey: EkDohf20jN/9kXW/WL3ZXo245ggek9TiTWzzmBriMTU= ~ signature: kqGzpUb9Wo6KmfpJGXyvWf7xpiHOKcAC/W6QT8baPqN8/+hR+RvqRimTx3titqp6iAk3Iak7fY8fJXFo3O0WCg==
-composer.json: 185030674893fd50741caeb97be1f4b52a8686aae171bb342108a005909f1f4c 580
-src/vc85.php: 7e2c3a76ca78bf6bcf8acadff622298553a693fbfe8105105209b8d9a3996c59 8330
+hashsig: cf64e1d9a6c7c1fde09b832c13f9d586a5d01a65685f6cbade0a3ac8e606c176 ~ filescnt: 2 ~ hashalg: sha256 ~ signalg: ed25519 ~ pubkey: EkDohf20jN/9kXW/WL3ZXo245ggek9TiTWzzmBriMTU= ~ signature: vgaUA+5Q8bQJQrnlFeS8BkDZCjvrNvapt4lnqosjtbCT+LMv09GQURV+OBjPEmWYOuuBSEhhllcjWwuVQvKRDA==
+composer.json: 2ad35c10951caa5ef8ba821e09a5cd2bba8a6d76b16aacaa1d05cadc58b70297 580
+src/vc85.php: cda01e48edb785680dab5a9d3823405d45334a90d8cbe75bee08a901ff993f29 8330
