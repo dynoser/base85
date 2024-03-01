@@ -1,6 +1,6 @@
 {
     "name": "dynoser/base85",
-    "description": "base85 encoder and decoder. Classic mode ascii85, vwx-mode, and visually distinctive characters (cyrillic) mode",
+    "description": "base85 encoder and decoder. ASCII85, vwx85, and vc85 (visually distinctive characters cyrillic)",
     "license": "Apache-2.0",
     "authors": [
         {
